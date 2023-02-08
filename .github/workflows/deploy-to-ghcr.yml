@@ -34,6 +34,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Workaround cargo error failing build
+      # https://github.com/marketplace/actions/docker-on-tmpfs
+      # Error: https://github.com/andrewn/librespot-docker/actions/runs/4121241814/jobs/7116738264#step:8:567
+      - name: Run Docker on tmpfs
+        uses: JonasAlfredsson/docker-on-tmpfs@v1
+        with:
+          tmpfs_size: 5
+          swap_size: 4
+          swap_location: "/mnt/swapfile"
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
