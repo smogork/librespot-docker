@@ -12,6 +12,20 @@ env:
 jobs:
   deploy-to-ghcr:
     runs-on: ubuntu-20.04
+
+    # Specify BALENA_ARCH for each platform
+    # See: https://github.com/docker/build-push-action/issues/529
+    strategy:
+      matrix:
+        include:
+          - platforms: linux/arm/v6
+            balena_arch: rpi
+          - platforms: linux/arm/v7
+            balena_arch: armv7hf
+          - platforms: linux/arm64
+            balena_arch: aarch64
+          - platforms: linux/amd64
+            balena_arch: amd64
     permissions:
       contents: read
       packages: write
@@ -52,7 +66,9 @@ jobs:
         with:
           context: .
           file: Dockerfile.pulseaudio.template
-          platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
+          platforms: ${{ matrix.platforms }}
+          build-args: |
+            BALENA_ARCH=${{ matrix.balena_arch }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
