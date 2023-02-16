@@ -66,6 +66,7 @@ jobs:
             latest=true
           tags: |
             type=semver,pattern={{version}}
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
@@ -79,3 +80,4 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          provenance: false
