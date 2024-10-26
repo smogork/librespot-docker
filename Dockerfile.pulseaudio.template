@@ -6,7 +6,7 @@ WORKDIR /app
 
 ARG LIBRESPOT_VERSION=0.4.2
 
-RUN install_packages alsa-lib-dev pulseaudio-dev cargo curl
+RUN install_packages alsa-lib-dev pulseaudio-dev cargo curl build-base cmake clang-dev llvm-dev
 
 RUN curl -sL "https://github.com/librespot-org/librespot/archive/refs/tags/v${LIBRESPOT_VERSION}.tar.gz" --output librespot.tar.gz && \
   mkdir /app/librespot-src && \
@@ -16,6 +16,13 @@ WORKDIR /app/librespot-src
 
 ENV CARGO_HOME=/app/cargo
 ENV RUSTFLAGS="-C target-feature=-crt-static"
+ENV AWS_LC_SYS_EXTERNAL_BINDGEN=1
+ENV BINDGEN_EXTRA_CLANG_ARGS="-I/usr/include"
+ENV LIBCLANG_PATH="/usr/lib"
+
+
+RUN cargo install --force --locked bindgen-cli && \
+    ln -s /app/cargo/bin/bindgen /usr/local/bin/bindgen
 
 RUN cargo build \
   --release \
