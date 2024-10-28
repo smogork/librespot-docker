@@ -10,6 +10,7 @@ function build_and_push_image () {
 
   echo "Building for $BALENA_ARCH, platform $PLATFORM, pushing to $IMAGE_NAME"
   echo "Using librespot version $LIBRESPOT_VERSION"
+  echo "Dockerfile: $DOCKERFILE"
   docker buildx build ../ \
       --pull \
       --build-arg BALENA_ARCH=$BALENA_ARCH \
@@ -38,8 +39,8 @@ function create_and_push_manifest() {
   docker manifest push $NAME:$TAG
 }
 
-LIBRESPOT_VERSION="0.4.2"
-DOCKER_NAMESPACE="tmigone"
+LIBRESPOT_VERSION="0.5.0"
+DOCKER_NAMESPACE="andrewn"
 
 build_and_push_image "Dockerfile.pulseaudio.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-pulseaudio-rpi" "rpi" "linux/arm/v6" "$LIBRESPOT_VERSION"
 build_and_push_image "Dockerfile.pulseaudio.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-pulseaudio-armv7hf" "armv7hf" "linux/arm/v7" "$LIBRESPOT_VERSION"
