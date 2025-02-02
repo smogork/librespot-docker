@@ -13,8 +13,8 @@ __Note:__ These images were built to be used mainly with [balenaOS](https://www.
 ## Usage
 
 Images are built and published to [Docker Hub](https://hub.docker.com/r/tmigone/librespot). The following images are available:
-- With alsa-backend: `tmigone/librespot:<version>`
-- With pulseaudio-backend: `tmigone/librespot:<version>-pulseaudio`
+- With alsa-backend: `szredor/librespot:<version>`
+- With pulseaudio-backend: `szredor/librespot:<version>-pulseaudio`
 
 For a detailed list of available tags visit: https://hub.docker.com/r/tmigone/librespot/tags
 
@@ -29,7 +29,7 @@ volumes:
 services:
 
   spotify:
-    image: tmigone/librespot:0.3.1
+    image: szredor/librespot:0.6.0
     privileged: true
     network_mode: host
     command: /usr/bin/librespot
@@ -40,7 +40,7 @@ services:
 **Extend dockerfile**
 
 ```Dockerfile
-FROM tmigone/librespot:0.3.1-pulseaudio
+FROM tmigone/librespot:0.6.0-pulseaudio
 ENV PULSE_SERVER=tcp:localhost:4317
 
 CMD [ "/usr/bin/librespot", "--name=spotiplayer" ]

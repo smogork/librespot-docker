@@ -38,7 +38,7 @@ function create_and_push_manifest() {
   docker manifest push $NAME:$TAG
 }
 
-LIBRESPOT_VERSION="0.3.1"
+LIBRESPOT_VERSION="0.6.0"
 
 build_and_push_image "Dockerfile.template" "tmigone/librespot:$LIBRESPOT_VERSION-rpi" "rpi" "linux/arm/v6" "$LIBRESPOT_VERSION"
 build_and_push_image "Dockerfile.template" "tmigone/librespot:$LIBRESPOT_VERSION-armv7hf" "armv7hf" "linux/arm/v7" "$LIBRESPOT_VERSION"
