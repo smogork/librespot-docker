@@ -4,7 +4,7 @@ ARG BALENA_ARCH=%%BALENA_ARCH%%
 FROM balenalib/$BALENA_ARCH-alpine:edge as librespot-builder
 WORKDIR /app
 
-ARG LIBRESPOT_VERSION=0.6.0
+ARG LIBRESPOT_VERSION=0.7.1
 
 RUN install_packages alsa-lib-dev cargo curl cmake clang19-libclang make rust-bindgen
 
