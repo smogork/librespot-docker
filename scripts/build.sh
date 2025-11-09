@@ -30,10 +30,10 @@ function create_and_push_manifest() {
   echo "Creating manifest for $NAME:$TAG..."
   docker manifest rm $NAME:$TAG || true
   docker manifest create $NAME:$TAG \
-    --amend "$NAME:$LIBRESPOT_VERSION-aarch64" \
-    --amend "$NAME:$LIBRESPOT_VERSION-rpi" \
-    --amend "$NAME:$LIBRESPOT_VERSION-armv7hf" \
     --amend "$NAME:$LIBRESPOT_VERSION-amd64"
+    #--amend "$NAME:$LIBRESPOT_VERSION-aarch64" \
+    #--amend "$NAME:$LIBRESPOT_VERSION-rpi" \
+    #--amend "$NAME:$LIBRESPOT_VERSION-armv7hf" \
 
   docker manifest push $NAME:$TAG
 }
@@ -41,9 +41,9 @@ function create_and_push_manifest() {
 LIBRESPOT_VERSION="0.7.1"
 DOCKER_NAMESPACE="szredor"
 
-build_and_push_image "Dockerfile.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-rpi" "rpi" "linux/arm/v6" "$LIBRESPOT_VERSION"
-build_and_push_image "Dockerfile.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-armv7hf" "armv7hf" "linux/arm/v7" "$LIBRESPOT_VERSION"
-build_and_push_image "Dockerfile.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-aarch64" "aarch64" "linux/arm64" "$LIBRESPOT_VERSION"
+#build_and_push_image "Dockerfile.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-rpi" "rpi" "linux/arm/v6" "$LIBRESPOT_VERSION"
+#build_and_push_image "Dockerfile.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-armv7hf" "armv7hf" "linux/arm/v7" "$LIBRESPOT_VERSION"
+#build_and_push_image "Dockerfile.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-aarch64" "aarch64" "linux/arm64" "$LIBRESPOT_VERSION"
 build_and_push_image "Dockerfile.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-amd64" "amd64" "linux/amd64" "$LIBRESPOT_VERSION"
 
-create_and_push_manifest "tmigone/librespot" "$LIBRESPOT_VERSION"
+#create_and_push_manifest "tmigone/librespot" "$LIBRESPOT_VERSION"

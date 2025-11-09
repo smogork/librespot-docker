@@ -1,12 +1,12 @@
 ARG BALENA_ARCH=%%BALENA_ARCH%%
 
 # Build process from: https://git.alpinelinux.org/aports/tree/testing/librespot/APKBUILD
-FROM balenalib/$BALENA_ARCH-alpine:edge as librespot-builder
+FROM $BALENA_ARCH/alpine:edge as librespot-builder
 WORKDIR /app
 
 ARG LIBRESPOT_VERSION=0.7.1
 
-RUN install_packages alsa-lib-dev cargo curl cmake clang19-libclang make rust-bindgen
+RUN apk add alsa-lib-dev cargo curl cmake clang21-libclang make rust-bindgen openssl-dev
 
 RUN curl -sL "https://github.com/librespot-org/librespot/archive/refs/tags/v${LIBRESPOT_VERSION}.tar.gz" --output librespot.tar.gz && \
   mkdir /app/librespot-src && \
@@ -22,10 +22,10 @@ RUN cargo build \
   --features alsa-backend \
   --verbose
 
-FROM balenalib/$BALENA_ARCH-alpine:3.18-run
+FROM $BALENA_ARCH/alpine:3.22
 WORKDIR /app
 
-RUN install_packages libgcc alsa-lib-dev
+RUN apk add libgcc alsa-lib
 
 COPY --from=librespot-builder /app/librespot-src/target/release/librespot /usr/bin/librespot
 
