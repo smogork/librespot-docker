@@ -32,25 +32,20 @@ function create_and_push_manifest() {
   echo "Creating manifest for $NAME:$TAG..."
   docker manifest rm $NAME:$TAG || true
   docker manifest create $NAME:$TAG \
-    --amend "$NAME:$LIBRESPOT_VERSION-pulseaudio-aarch64" \
-    --amend "$NAME:$LIBRESPOT_VERSION-pulseaudio-rpi" \
-    --amend "$NAME:$LIBRESPOT_VERSION-pulseaudio-armv7hf" \
+    --amend "$NAME:$LIBRESPOT_VERSION-pulseaudio-arm64v8" \
     --amend "$NAME:$LIBRESPOT_VERSION-pulseaudio-amd64"
+    #--amend "$NAME:$LIBRESPOT_VERSION-pulseaudio-aarch64" \
+    #--amend "$NAME:$LIBRESPOT_VERSION-pulseaudio-rpi" \
 
   docker manifest push $NAME:$TAG
 }
 
-<<<<<<< HEAD
-LIBRESPOT_VERSION="0.6.0"
+LIBRESPOT_VERSION="0.7.1"
 DOCKER_NAMESPACE="szredor"
-=======
-LIBRESPOT_VERSION="0.5.0"
-DOCKER_NAMESPACE="andrewn"
->>>>>>> 4710ad16128cff413782ab08f1ee0f99b90eaf5d
 
-build_and_push_image "Dockerfile.pulseaudio.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-pulseaudio-rpi" "rpi" "linux/arm/v6" "$LIBRESPOT_VERSION"
-build_and_push_image "Dockerfile.pulseaudio.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-pulseaudio-armv7hf" "armv7hf" "linux/arm/v7" "$LIBRESPOT_VERSION"
-build_and_push_image "Dockerfile.pulseaudio.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-pulseaudio-aarch64" "aarch64" "linux/arm64" "$LIBRESPOT_VERSION"
+#build_and_push_image "Dockerfile.pulseaudio.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-pulseaudio-rpi" "rpi" "linux/arm/v6" "$LIBRESPOT_VERSION"
+#build_and_push_image "Dockerfile.pulseaudio.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-pulseaudio-armv7hf" "armv7hf" "linux/arm/v7" "$LIBRESPOT_VERSION"
 build_and_push_image "Dockerfile.pulseaudio.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-pulseaudio-amd64" "amd64" "linux/amd64" "$LIBRESPOT_VERSION"
+build_and_push_image "Dockerfile.pulseaudio.template" "${DOCKER_NAMESPACE}/librespot:$LIBRESPOT_VERSION-pulseaudio-arm64v8" "arm64v8" "linux/arm64" "$LIBRESPOT_VERSION"
 
 create_and_push_manifest "${DOCKER_NAMESPACE}/librespot" "$LIBRESPOT_VERSION-pulseaudio"

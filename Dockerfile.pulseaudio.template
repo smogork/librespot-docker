@@ -1,16 +1,12 @@
 ARG BALENA_ARCH=%%BALENA_ARCH%%
 
 # Build process from: https://git.alpinelinux.org/aports/tree/testing/librespot/APKBUILD
-FROM balenalib/$BALENA_ARCH-alpine:edge AS librespot-builder
+FROM $BALENA_ARCH/alpine:edge as librespot-builder
 WORKDIR /app
 
-ARG LIBRESPOT_VERSION=0.6.0
+ARG LIBRESPOT_VERSION=0.7.1
 
-<<<<<<< HEAD
-RUN install_packages alsa-lib-dev pulseaudio-dev cargo curl cmake clang19-libclang make rust-bindgen
-=======
-RUN install_packages alsa-lib-dev pulseaudio-dev cargo curl build-base cmake clang-dev llvm-dev
->>>>>>> 4710ad16128cff413782ab08f1ee0f99b90eaf5d
+RUN apk add alsa-lib-dev cargo curl cmake clang21-libclang make rust-bindgen openssl-dev pulseaudio-dev
 
 RUN curl -sL "https://github.com/librespot-org/librespot/archive/refs/tags/v${LIBRESPOT_VERSION}.tar.gz" --output librespot.tar.gz && \
   mkdir /app/librespot-src && \
@@ -33,10 +29,11 @@ RUN cargo build \
   --features alsa-backend,pulseaudio-backend \
   --verbose
 
-FROM balenalib/$BALENA_ARCH-alpine:3.18-run
+FROM $BALENA_ARCH/alpine:3.22
+
 WORKDIR /app
 
-RUN install_packages libgcc alsa-lib-dev pulseaudio-dev
+RUN apk add libgcc alsa-lib pulseaudio
 
 COPY --from=librespot-builder /app/librespot-src/target/release/librespot /usr/bin/librespot
 
